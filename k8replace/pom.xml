@@ -1,0 +1,118 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath></relativePath>
+    </parent>
+    <groupId>com.k</groupId>
+    <artifactId>k8replace</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <properties>
+        <springcloud.version>Hoxton.SR9</springcloud.version>
+        <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
+        <junit.version>4.12</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.source-plugin.version>2.1.2</maven.source-plugin.version>
+        <maven.deploy.plugin.version>2.7</maven.deploy.plugin.version>
+        <maven.surefire.plugin.version>2.9</maven.surefire.plugin.version>
+        <org.jsoup.version>1.9.2</org.jsoup.version>
+        <qiniu-java-sdk.version>7.2.8</qiniu-java-sdk.version>
+        <com.aliyun.ons-client.version>1.2.7.Final</com.aliyun.ons-client.version>
+        <org.aspectj.version>1.8.9</org.aspectj.version>
+        <hibernate.validator.parent.version>5.4.2.Final</hibernate.validator.parent.version>
+        <org.json.version>20090211</org.json.version>
+        <mysql-connector-java.version>5.1.44</mysql-connector-java.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <swagger.version>2.0.4</swagger.version>
+        <jxls.version>1.0.6</jxls.version>
+        <poi.version>3.9</poi.version>
+        <dubbo.springboot.version>0.2.0</dubbo.springboot.version>
+        <alibaba.druid.version>1.1.9</alibaba.druid.version>
+        <zkclient.version>0.1</zkclient.version>
+        <dubbo.version>2.6.2</dubbo.version>
+        <spider.version>-SNAPSHOT</spider.version>
+        <yosar.version>-SNAPSHOT</yosar.version>
+        <snapshot.version>-SNAPSHOT</snapshot.version>
+        <release.version>.RELEASE</release.version>
+        <disruptor.version>3.4.2</disruptor.version>
+        <orika.version>1.5.4</orika.version>
+        <validation.version>2.0.1.Final</validation.version>
+        <baomidou.version>3.4.2</baomidou.version>
+    </properties>
+
+    <modules>
+        <module>k8replace-api</module>
+        <module>k8replace-service</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${springcloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.4.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>2.0.9</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xiaoleilu</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <!--<distributionManagement>-->
+    <!--    <snapshotRepository>-->
+    <!--        <id>ejiayou-snapshots</id>-->
+    <!--        <url>https://maven.ejiayou.com/repository/ejiayou-snapshots/</url>-->
+    <!--    </snapshotRepository>-->
+    <!--    <repository>-->
+    <!--        <id>ejiayou-repository</id>-->
+    <!--        <url>https://maven.ejiayou.com/repository/ejiayou-repository/</url>-->
+    <!--    </repository>-->
+    <!--</distributionManagement>-->
+</project>
