@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>登录</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="icon" th:href="@{/static/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/element/index.css}">
+</head>
+<body>
+<div id="app">
+    <template>
+        <div class="login-page">
+            <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px">
+                <h3 class="title">系统登录</h3>
+                <el-form-item prop="userName">
+                    <el-input type="text" v-model="loginForm.userName" placeholder="用户名"></el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                    <el-input type="password" v-model="loginForm.password" placeholder="密码"></el-input>
+                </el-form-item>
+                <el-form-item style="width:100%;">
+                    <el-button type="primary" style="width:100%;" @click="login">登录</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </template>
+</div>
+</body>
+<script th:src="@{/static/js/axios.min.js}"></script>
+<script th:src="@{/static/js/common.js}"></script>
+<script th:src="@{/static/js/vue.min.js}"></script>
+<script th:src="@{/static/element/index.js}"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                loginForm: {
+                    userName: 'admin',
+                    password: '123456',
+                },
+                rules: {
+                    userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+                    password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+                },
+                checked: false,
+                buttons: [],
+            }
+        },
+        beforeCreate: function () {
+            if (self != top) {
+                top.location.href = self.location.href;
+            }
+        },
+        methods: {
+            login(event) {
+                this.$refs.loginForm.validate((valid) => {
+                    if (valid) {
+                        service.get('/login', {
+                            params: {
+                                username: this.loginForm.userName,
+                                password: this.loginForm.password
+                            }
+                        })
+                            .then((res) => {
+                                if (res.code === 0) {
+                                    localStorage.setItem("backup-token", JSON.stringify(res.data.token));
+                                    localStorage.setItem('backup-adminUser', JSON.stringify(res.data.adminUser));
+                                    parent.location.href = 'index';
+                                } else {
+                                    this.$message.error(res.msg);
+                                }
+                            });
+                    } else {
+                        return false;
+                    }
+                })
+            }
+
+        }
+    })
+</script>
+<style>
+    .login-page {
+        top: 40%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+        width: 350px;
+        border-radius: 5px;
+        padding: 35px 35px 15px;
+        background: #fff;
+        border: 1px solid #eaeaea;
+        box-shadow: 0 0 25px #cac6c6;
+    }
+</style>
+</html>

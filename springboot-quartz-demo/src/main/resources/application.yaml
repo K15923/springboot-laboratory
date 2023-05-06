@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /data-backup
+# Actuator Web
+management:
+  endpoints:
+    web:
+      base-path: /data-backup
+    health:
+      show-details: always
+
+# 配置Knife4j
+knife4j:
+  enabled: true
+
+linuxenv:
+  localhost: 192.168.221.135
+  localusername: root
+  localpassword: 123456
+  remotehost: 192.168.221.134
+  remotport: 22
+  remoteusername: root
+  remotepassword: 123456
+db:
+  databaseName: nd_3dx_manage_svc_dev01 nd_3dx_client_svc_dev01 nd_3dx_authorize_svc_dev01 nd_3dx_application_svc_dev01
+  username: root
+  password: 123456
+  host: 192.168.221.134
+  port: 22
+backup:
+  settingFilePath: /backup/setting.properties
+  userInfoFilePath: /backup/user.properties
+  filePath: /backup
+  remoteFolder: /root/environment/instruct/minio
+
+docker:
+  container: instruct-minio-1
