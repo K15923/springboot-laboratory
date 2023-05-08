@@ -37,13 +37,7 @@ public class SpringContextUtils implements ApplicationListener<ContextRefreshedE
         return applicationContext;
     }
 
-    /**
-     * @Description: 是否开发环境
-     * @Author: wuzhouwei
-     * @Date: 2022/5/18
-     * @return:
-     **/
-    public static boolean isOfficeProfile() {
+     public static boolean isOfficeProfile() {
         return "office".equals(getActiveProfile());
     }
 

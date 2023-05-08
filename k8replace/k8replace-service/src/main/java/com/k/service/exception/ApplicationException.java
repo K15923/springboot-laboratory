@@ -4,8 +4,6 @@ import com.k.service.api.result.ErrorCode;
 /**
  * 应用错误 : 调用依赖系统异常
  * 熔断/异常状态/数据为空
- *
- * @author wangqing
  */
 public class ApplicationException extends RuntimeException {
     /**
@@ -27,18 +25,6 @@ public class ApplicationException extends RuntimeException {
         super();
         this.code = errorCode.getCode();
         this.message = errorCode.getMessage();
-    }
-
-    /**
-     * 构造函数
-     *
-     * @param code
-     * @param message
-     */
-    public ApplicationException(Integer code, String message) {
-        super();
-        this.code = code;
-        this.message = message;
     }
 
     /**

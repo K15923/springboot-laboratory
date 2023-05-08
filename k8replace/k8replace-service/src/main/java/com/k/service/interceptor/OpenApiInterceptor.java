@@ -1,7 +1,7 @@
 package com.k.service.interceptor;
 
 import com.k.service.annotation.SignatureVerification;
-import com.k.service.util.ThreadLocalUtil;
+import com.k.service.utils.ThreadLocalUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,7 @@ public class OpenApiInterceptor extends HandlerInterceptorAdapter {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                             Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HandlerMethod method = (HandlerMethod) handler;
         SignatureVerification anno = getAnno(method);
         return true;
@@ -30,8 +29,7 @@ public class OpenApiInterceptor extends HandlerInterceptorAdapter {
         return handlerMethod.getMethodAnnotation(SignatureVerification.class);
     }
 
-    private void setLocalData(HandlerMethod method, Map pathVariables, TreeMap<Object, Object> bodyParams,
-                              SignatureVerification anno) {
+    private void setLocalData(HandlerMethod method, Map pathVariables, TreeMap<Object, Object> bodyParams, SignatureVerification anno) {
 
     }
 
@@ -41,8 +39,7 @@ public class OpenApiInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-                                Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         ThreadLocalUtil.remove();
     }
 }

@@ -35,14 +35,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * @author xujiacong@ejiayou.com
- * @description
- * @create 2022-03-22 17:23
- **/
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-
 
     @Resource
     private AuthInterceptor interceptor;
@@ -50,42 +44,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Resource
     private OpenApiInterceptor openApiInterceptor;
 
-
-    /**
-     * 注册拦截器
-     *
-     * @param registry
-     * @return void
-     * @author xujiacong@ejiayou.com
-     * @since 2022/3/22 17:24
-     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
 
-        registry.addInterceptor(openApiInterceptor).addPathPatterns("/openApi", "/openApi/**").excludePathPatterns(
-                "/login", "/swagger-resources**", "**.js", "**.css", "/doc.html**").excludePathPatterns("/webjars/**",
-                                                                                                        "/v2/**");
+        registry.addInterceptor(openApiInterceptor).addPathPatterns("/openApi", "/openApi/**")
+                .excludePathPatterns("/login", "/swagger-resources**", "**.js", "**.css", "/doc.html**")
+                .excludePathPatterns("/webjars/**", "/v2/**");
 
 
-        registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/login", "/login/**",
-                                                                                        "/swagger-resources/**",
-                                                                                        "**.js", "**.css",
-                                                                                        "/doc.html**")
-                .excludePathPatterns("/common", "/common/**").excludePathPatterns("/wx/jsapi", "/wx/jsapi/**")
-                .excludePathPatterns("/ali", "/ali/**").excludePathPatterns("/webjars/**", "/v2/**")
-                .excludePathPatterns("/commParamCode", "/commParamCode/**").excludePathPatterns(
-                        "/h5/homePage/getStationByName", "/h5/homePage/getOneLevelActivityTag").excludePathPatterns(
-                        "/h5/homePage/initStationInfo", "/h5/homePage/createOrderAndPayMini", "/h5/order/doContinuePayMini")
-                .excludePathPatterns("/getNoteForLogin");
+        registry.addInterceptor(interceptor).addPathPatterns("/**").
+                excludePathPatterns("/**");
 
     }
 
-    /**
-     * 对指定请求的 HttpServletRequest 进行重新注册返回
-     *
-     * @return
-     */
     @Bean
     public FilterRegistrationBean<RequestBodyFilter> setLogServiceFilter() {
         FilterRegistrationBean<RequestBodyFilter> registrationBean = new FilterRegistrationBean<>();
@@ -114,8 +86,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                                      new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
         simpleModule.addSerializer(BigDecimal.class, new JsonSerializer<BigDecimal>() {
             @Override
-            public void serialize(BigDecimal value, JsonGenerator gen,
-                                  SerializerProvider serializers) throws IOException {
+            public void serialize(BigDecimal value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
                 gen.writeString(value.toPlainString());
             }
         });

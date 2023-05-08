@@ -1,4 +1,4 @@
-package com.k.service.aspect;
+package com.k.service.interceptor;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,14 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Optional;
 
-
-/**
- * 开发环境使用的日志打印切面
- *
- * @author wuzhouwei
- * @date 2020年8月14日 上午10:06:58
- * @see [相关类/方法]
- */
 @Component
 @Profile({"office", "dev", "pre", "test"})
 @Aspect
