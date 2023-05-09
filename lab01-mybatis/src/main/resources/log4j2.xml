@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <properties>
+        <!--链路追踪使用-->
+        <!--<property name="log.pattern">[%d{yyyy-MM-dd HH:mm:ss}] [${hostName}]  [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %-5p %c:%L [%t] - %m%n</property>-->
+        <property name="log.pattern">[%d{yyyy-MM-dd HH:mm:ss}] [${hostName}] [%p] [%t] %l - %m%n</property>
+        <property name="log.home">/mnt/logs/lab01-mybatis</property>
+        <property name="log.level">info</property>
+    </properties>
+    <Appenders>
+        <!-- 控制台 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log.pattern}"/>
+        </Console>
+
+        <!-- INFO级别日志 -->
+        <RollingFile name="RollingFileInfo" fileName="${log.home}/info.log"
+                     filePattern="${log.home}/info.%d{yyyy-MM-dd}.log">
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="${log.pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- WARN级别日志 -->
+        <RollingFile name="RollingFileWarn" fileName="${log.home}/warn.log"
+                     filePattern="${log.home}/warn.%d{yyyy-MM-dd}.log">
+            <Filters>
+                <ThresholdFilter level="WARN"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="${log.pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- ERROR级别日志 -->
+        <RollingFile name="RollingFileError" fileName="${log.home}/error.log"
+                     filePattern="${log.home}/error.%d{yyyy-MM-dd}.log">
+            <Filters>
+                <ThresholdFilter level="ERROR"/>
+            </Filters>
+            <PatternLayout pattern="${log.pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="false"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="${sys:log.level}">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileInfo"/>
+            <AppenderRef ref="RollingFileWarn"/>
+            <AppenderRef ref="RollingFileError"/>
+        </Root>
+    </Loggers>
+</Configuration>

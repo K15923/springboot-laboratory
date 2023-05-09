@@ -3,11 +3,6 @@ package com.k.service.utils;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.k.service.api.dto.DemoDTO;
 
-/**
- * @author: xujiacong@ejiayou.com
- * @time: 2022-08-03  16:43
- * @description:
- */
 public class ThreadLocalUtil {
 
     private static final TransmittableThreadLocal<DemoDTO> DEMO = new TransmittableThreadLocal<>();
