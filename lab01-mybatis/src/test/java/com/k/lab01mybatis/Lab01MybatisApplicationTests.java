@@ -42,7 +42,7 @@ class Lab01MybatisApplicationTests {
     @Test
     public void queryPage() {
         //分页参数
-        Page<UserInfo> page = Page.of(9, 100);
+        Page<UserInfo> page = Page.of(9, 10);
         //queryWrapper组装查询where条件
         LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
         // queryWrapper.eq(UserInfo::get,13);
