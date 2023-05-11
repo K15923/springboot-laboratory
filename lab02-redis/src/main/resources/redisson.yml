@@ -1,8 +1,34 @@
 singleServerConfig:
-  password: 123456
   address: "redis://127.0.0.1:6379"
-  database: 1
+  database: 0
 threads: 0
 nettyThreads: 0
-codec: !<org.redisson.codec.FstCodec> {}
+codec: !<org.redisson.codec.JsonJacksonCodec> {}
 transportMode: "NIO"
+
+#clusterServersConfig:
+#  idleConnectionTimeout: 10000
+#  connectTimeout: 10000
+#  timeout: 3000
+#  retryAttempts: 3
+#  retryInterval: 1500
+#  password: null
+#  subscriptionsPerConnection: 5
+#  clientName: null
+#  loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
+#  slaveSubscriptionConnectionMinimumIdleSize: 1
+#  slaveSubscriptionConnectionPoolSize: 50
+#  slaveConnectionMinimumIdleSize: 32
+#  slaveConnectionPoolSize: 64
+#  masterConnectionMinimumIdleSize: 32
+#  masterConnectionPoolSize: 64
+#  readMode: "SLAVE"
+#  nodeAddresses:
+#    - "redis://127.0.0.1:7004"
+#    - "redis://127.0.0.1:7001"
+#    - "redis://127.0.0.1:7000"
+#  scanInterval: 1000
+#threads: 0
+#nettyThreads: 0
+#codec: !<org.redisson.codec.JsonJacksonCodec> {}
+#"transportMode":"NIO"
