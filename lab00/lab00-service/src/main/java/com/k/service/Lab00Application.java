@@ -7,12 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
-/**
- * description:入口类 Author Date Changes tc 2020-05-07 Created
- */
 @SpringBootApplication
-// @EnableDiscoveryClient
-// @EnableTransactionManagement
 @EnableFeignClients(basePackages = {"com.k"})
 public class Lab00Application {
 

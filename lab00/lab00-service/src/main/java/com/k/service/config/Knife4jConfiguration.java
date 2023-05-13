@@ -9,8 +9,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
@@ -30,6 +28,8 @@ public class Knife4jConfiguration {
 
             @Override
             public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+                //                if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof
+                //                WebFluxRequestHandlerProvider) {
                 if (bean instanceof WebMvcRequestHandlerProvider) {
                     customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
                 }
@@ -57,16 +57,16 @@ public class Knife4jConfiguration {
         };
     }
 
-    @Bean(value = "defaultApi2")
-    public Docket defaultApi2() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).groupName("接口:version 1.0").select()
+    @Bean(value = "docketBean")
+    public Docket docketBean() {
+        //指定使用Swagger2规范
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(new ApiInfoBuilder()
+                        //描述字段支持Markdown语法
+                        .description("# Knife4j RESTful APIs").termsOfServiceUrl("https://doc.xiaominfo.com/")
+                        .contact("a@123.com").version("1.0").build())
+                //分组名称
+                .groupName("demo").select()
+                //这里指定Controller扫描包路径
                 .apis(RequestHandlerSelectors.basePackage("com.k.service.api")).paths(PathSelectors.any()).build();
     }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("接口文档").description("接口文档")
-                .termsOfServiceUrl("http://localhost:8080/doc.html")
-                .contact(new Contact("xxx", "https://www.xxx.com/", null)).version("v1.0").build();
-    }
-
 }
