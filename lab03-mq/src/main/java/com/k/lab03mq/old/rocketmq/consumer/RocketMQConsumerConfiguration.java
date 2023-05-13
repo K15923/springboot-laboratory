@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.k.lab03mq.demos.rocketmq.consumer;
+package com.k.lab03mq.old.rocketmq.consumer;
 
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Configuration;

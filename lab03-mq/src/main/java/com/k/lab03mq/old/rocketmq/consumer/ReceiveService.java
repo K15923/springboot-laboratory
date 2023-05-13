@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.k.lab03mq.demos.rocketmq.consumer;
+package com.k.lab03mq.old.rocketmq.consumer;
 
-import com.k.lab03mq.demos.rocketmq.Foo;
+import com.k.lab03mq.old.rocketmq.Foo;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;

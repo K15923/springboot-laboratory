@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.k.lab03mq.demos.rocketmq.producer;
+package com.k.lab03mq.old.rocketmq.producer;
 
-import com.k.lab03mq.demos.rocketmq.Foo;
+import com.k.lab03mq.old.rocketmq.Foo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.k.lab03mq.demos.rocketmq.consumer;
+package com.k.lab03mq.old.rocketmq.consumer;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.binder.PollableMessageSource;

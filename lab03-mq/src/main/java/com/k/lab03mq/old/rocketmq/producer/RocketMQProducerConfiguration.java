@@ -14,44 +14,25 @@
  * limitations under the License.
  */
 
-package com.k.lab03mq.demos.rocketmq;
+package com.k.lab03mq.old.rocketmq.producer;
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
  */
-public class Foo {
+@Configuration
+@EnableBinding({MySource.class})
+public class RocketMQProducerConfiguration {
 
-    private int id;
-
-    private String bar;
-
-    public Foo() {
+    @Bean
+    public ObjectMapper objectMapper() {
+        JsonMapper mapper = new JsonMapper();
+        return mapper;
     }
-
-    public Foo(int id, String bar) {
-        this.id = id;
-        this.bar = bar;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getBar() {
-        return bar;
-    }
-
-    public void setBar(String bar) {
-        this.bar = bar;
-    }
-
-    @Override
-    public String toString() {
-        return "Foo{" + "id=" + id + ", bar='" + bar + '\'' + '}';
-    }
-
 }

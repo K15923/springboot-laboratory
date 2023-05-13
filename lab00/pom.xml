@@ -14,7 +14,9 @@
     <properties>
         <spring-boot.version>2.7.6</spring-boot.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <knife4j.version>4.0.0</knife4j.version>
+        <lombok.version>1.18.26</lombok.version>
     </properties>
 
     <modules>
@@ -32,9 +34,28 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -61,14 +82,4 @@
             </plugin>
         </plugins>
     </build>
-    <!--<distributionManagement>-->
-    <!--    <snapshotRepository>-->
-    <!--        <id>ejiayou-snapshots</id>-->
-    <!--        <url>https://maven.ejiayou.com/repository/ejiayou-snapshots/</url>-->
-    <!--    </snapshotRepository>-->
-    <!--    <repository>-->
-    <!--        <id>ejiayou-repository</id>-->
-    <!--        <url>https://maven.ejiayou.com/repository/ejiayou-repository/</url>-->
-    <!--    </repository>-->
-    <!--</distributionManagement>-->
 </project>

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.k.lab03mq.demos.rocketmq.producer;
+package com.k.lab03mq.old.rocketmq.producer;
 
 import org.apache.rocketmq.common.message.MessageConst;
-import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
@@ -57,7 +56,7 @@ public class SenderService {
         MessageBuilder builder =
                 MessageBuilder.withPayload(msg).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
         builder.setHeader("test", String.valueOf(num));
-        builder.setHeader(RocketMQHeaders.TAGS, "binder");
+        builder.setHeader(MessageConst.PROPERTY_TAGS, "binder");
         Message message = builder.build();
         source.output2().send(message);
     }

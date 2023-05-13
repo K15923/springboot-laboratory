@@ -1,4 +1,4 @@
-package com.k.lab03mq.demos.rocketmq.producer;
+package com.k.lab03mq.old.rocketmq.producer;
 
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
