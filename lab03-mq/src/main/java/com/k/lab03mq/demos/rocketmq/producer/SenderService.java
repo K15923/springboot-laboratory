@@ -48,14 +48,14 @@ public class SenderService {
     }
 
     public <T> void sendObject(T msg, String tag) throws Exception {
-        Message message = MessageBuilder.withPayload(msg).setHeader(MessageConst.PROPERTY_TAGS, tag).setHeader(
-                MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
+        Message message = MessageBuilder.withPayload(msg).setHeader(MessageConst.PROPERTY_TAGS, tag)
+                .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
         source.output1().send(message);
     }
 
     public <T> void sendTransactionalMsg(T msg, int num) throws Exception {
-        MessageBuilder builder = MessageBuilder.withPayload(msg).setHeader(MessageHeaders.CONTENT_TYPE,
-                                                                           MimeTypeUtils.APPLICATION_JSON);
+        MessageBuilder builder =
+                MessageBuilder.withPayload(msg).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
         builder.setHeader("test", String.valueOf(num));
         builder.setHeader(RocketMQHeaders.TAGS, "binder");
         Message message = builder.build();

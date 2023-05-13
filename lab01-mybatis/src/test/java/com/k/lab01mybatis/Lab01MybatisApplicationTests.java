@@ -1,7 +1,6 @@
 package com.k.lab01mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.k.lab01mybatis.dao.domain.UserInfo;
@@ -26,6 +25,7 @@ class Lab01MybatisApplicationTests {
         boolean save = userInfoService.save(userInfo);
         log.info("保存结果：{}", save);
     }
+
     @Test
     public void queryOne() {
         LambdaQueryWrapper<UserInfo> queryWrapper = Wrappers.lambdaQuery(UserInfo.class);
@@ -49,8 +49,6 @@ class Lab01MybatisApplicationTests {
         userInfoService.getBaseMapper().selectPage(page, queryWrapper);
         page.getRecords().forEach(System.out::println);
     }
-
-
 
 
 }

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{/static/element/index.css}"/>
+    <link rel="icon" th:href="@{/static/favicon.ico}"/>
+</head>
+<body>
+<div id="app">
+    <template>
+        <div>
+            <SyncLoading
+                    :loading="perLoading"
+                    :type="'circle'"></SyncLoading>
+            <el-tabs @tab-click="handleClick" type="card" v-model="activeName">
+                <el-tab-pane label="备份设置" name="first">
+                    <p>备份设置</p>
+                    <el-form :model="form" label-width="80px" ref="form">
+                        <el-form-item label="备份周期">
+                            <el-select placeholder="请选择备份周期" v-model="form.backupCycle">
+                                <el-option label="3天" value="3"></el-option>
+                                <el-option label="7天" value="7"></el-option>
+                                <el-option label="15天" value="15"></el-option>
+                                <el-option label="30天" value="30"></el-option>
+                                <el-option label="150天" value="150"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="备份时间">
+                            <el-select placeholder="请选择备份时间" v-model="form.backupTime">
+                                <el-option label="0:00" value="0"></el-option>
+                                <el-option label="1:00" value="1"></el-option>
+                                <el-option label="2:00" value="2"></el-option>
+                                <el-option label="3:00" value="3"></el-option>
+                                <el-option label="4:00" value="4"></el-option>
+                                <el-option label="5:00" value="5"></el-option>
+                                <el-option label="6:00" value="6"></el-option>
+                                <el-option label="7:00" value="7"></el-option>
+                                <el-option label="8:00" value="8"></el-option>
+                                <el-option label="9:00" value="9"></el-option>
+                                <el-option label="10:00" value="10"></el-option>
+                                <el-option label="11:00" value="11"></el-option>
+                                <el-option label="12:00" value="12"></el-option>
+                                <el-option label="13:00" value="13"></el-option>
+                                <el-option label="14:00" value="14"></el-option>
+                                <el-option label="15:00" value="15"></el-option>
+                                <el-option label="16:00" value="16"></el-option>
+                                <el-option label="17:00" value="17"></el-option>
+                                <el-option label="18:00" value="18"></el-option>
+                                <el-option label="19:00" value="19"></el-option>
+                                <el-option label="20:00" value="20"></el-option>
+                                <el-option label="21:00" value="21"></el-option>
+                                <el-option label="22:00" value="22"></el-option>
+                                <el-option label="23:00" value="23"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="备份方式">
+                            <el-radio-group v-model="form.backupType">
+                                <el-radio label="自动备份"></el-radio>
+                                <el-radio label="手动备份"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="onSubmit" type="primary">配置保存</el-button>
+                            <el-button @click="backupByClick">手动备份</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane label="备份列表" name="second">
+                    <p>备份列表</p>
+                    <template>
+                        <el-table
+                                :data="tableData"
+                                style="width: 780px"
+                                v-loading="loading">
+                            <el-table-column
+                                    label="备份文件名称"
+                                    prop="name"
+                                    width="260">
+                            </el-table-column>
+                            <el-table-column
+                                    label="备份日期"
+                                    prop="date"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column
+                                    label="备份方式"
+                                    prop="type"
+                                    width="90">
+                            </el-table-column>
+                            <el-table-column
+                                    fixed="right"
+                                    label="操作"
+                                    width="200">
+                                <template slot-scope="scope">
+                                    <el-button @click="handleClickTable(scope.row)" size="small" type="text">
+                                        恢复到此数据版本
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </el-tab-pane>
+
+            </el-tabs>
+        </div>
+        <div :style="{'height':fatherHeight+'px'}" class="loadingModal" v-if="progressLoading">
+            <el-progress
+                    :color="colors"
+                    :percentage="percentage"
+                    :show-text="showText"
+                    :status="percentage === 100?undefined:'success'"
+                    :stroke-width="type?undefined:strokeWidth"
+                    :style="{width:'20%',margin:'0 auto',marginTop:`${fatherHeight*0.3}px`}"
+                    :text-inside="true"
+                    :type="type"
+                    :width="70"
+            ></el-progress>
+        </div>
+    </template>
+
+    <el-dialog
+            :visible.sync="dialogVisible"
+            title="提示"
+            width="30%">
+        <span>是否开始{{backupOrReduction}}</span>
+        <span class="dialog-footer" slot="footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button @click="startBackupOrReduction()" type="primary">确 定</el-button>
+  </span>
+    </el-dialog>
+</div>
+</body>
+<script th:src="@{/static/js/axios.min.js}"></script>
+<script th:src="@{/static/js/common.js}"></script>
+<script th:src="@{/static/js/vue.min.js}"></script>
+<script th:src="@{/static/element/index.js}"></script>
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<script th:src="@{/static/layer/layer.js}"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                count: 0,
+                perLoading: true,
+                // 进度条蒙版参数 开始
+                percentage: 0,
+                timeStart: 0,
+                fatherHeight: 0, // 父级元素高度
+                colors: [
+                    {color: "#1989fa", percentage: 99},
+                    {color: "#2BD176", percentage: 100},
+                ],
+                progressLoading: false,
+                // 进度条蒙版参数 结束
+
+                backupOrReduction: '',
+                backupOrReductionFlag: '',
+                activeName: 'second',
+                form: {
+                    backupCycle: '',
+                    backupTime: '',
+                    backupType: '',
+                },
+                tableData: [],
+                loading: true,
+                dialogVisible: false,
+                // 存储定时器的ID
+                intervalId: null,
+                backupFile: ''
+            }
+        },
+        props: {
+            strokeWidth: {
+                type: Number,
+                default: () => {
+                    return this.type ? undefined : 24;
+                },
+            },
+            showText: {
+                type: Boolean,
+                default: true,
+            },
+            // 进度条状态
+            type: {
+                type: String,
+                default: () => {
+                    return undefined;
+                },
+            },
+            // 显示状态
+            loading: {
+                type: Boolean,
+                default: false,
+            },
+        },
+        mounted() {
+            // 获取父级元素的高度，使组件高度与父元素高度相同
+            // 相对于父元素定位
+            this.$el.parentNode.style.position = "relative";
+        },
+        computed: {},
+        watch: {
+            // 监听loading状态控制进度条显示
+            loading(value, newValue) {
+                const that = this;
+                if (value) {
+                    that.start();
+                } else {
+                    that.end();
+                }
+            }
+        },
+        methods: {
+            // 进度条开始
+            start() {
+                const that = this;
+                that.fatherHeight = this.$el.parentNode.offsetHeight;
+                that.$nextTick(() => {
+                    that.progressLoading = true;
+                    that.percentage = 0;
+                    that.timeStart = setInterval(() => {
+                        if (that.percentage < 95) {
+                            that.percentage += 5;
+                        }
+                    }, 100);
+                });
+            },
+            // 进度条结束
+            end() {
+                const that = this;
+                that.percentage = 100;
+                clearInterval(this.timeStart);
+                setTimeout(() => {
+                    that.progressLoading = false;
+                }, 300);
+            },
+            startBackupOrReduction() {
+                this.queryStatus();
+                if (this.percentage > 0) {
+                    this.$message.error("正在执行操作中，请等待操作完成!");
+                    return
+                }
+                if (this.backupOrReductionFlag === '2') {
+                    service.get('/backup', {
+                        params: {}
+                    })
+                        .then((res) => {
+                            if (res.code === 0) {
+                                this.startProgressLoading()
+                            } else {
+                                this.$message.error(res.msg);
+                            }
+                        });
+                }
+                if (this.backupOrReductionFlag === '1') {
+                    service.get('/recovery', {
+                        params: {backupFile: this.backupFile}
+                    })
+                        .then((res) => {
+                            if (res.code === 0) {
+                                this.startProgressLoading();
+                            } else {
+                                this.$message.error(res.msg);
+                            }
+                        });
+                }
+            },
+            startProgressLoading() {
+                this.percentage = 0
+                this.dialogVisible = false
+                this.progressLoading = true
+                this.intervalId = setInterval(this.queryStatus, 1000);
+            },
+            queryStatus() {
+                service.get('/query-status', {
+                    params: {}
+                })
+                    .then((res) => {
+                        if (res.code === 0) {
+                            this.percentage = res.data;
+                            // this.percentage = this.percentage + 1;
+                            console.log(this.percentage)
+                            if (this.percentage >= 100 || this.percentage === 0) {
+                                clearInterval(this.intervalId);
+                                this.progressLoading = false
+                                this.perLoading = false
+                            }
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
+            },
+            backupByClick() {
+                this.backupOrReduction = '备份当前数据版本'
+                this.backupOrReductionFlag = '2'
+                this.dialogVisible = true
+            },
+            handleClick(tab, event) {
+                if (tab.name === 'frist') {
+                    this.querySetting()
+                }
+                if (tab.name === 'second') {
+                    this.queryBackupList()
+                }
+                console.log(tab, event);
+            },
+            handleClickTable(row) {
+                // todo
+                this.backupOrReduction = '恢复到' + row.name + "版本"
+                this.backupOrReductionFlag = '1'
+                this.dialogVisible = true
+                this.backupFile = row.name
+            },
+            onSubmit() {
+                service.post('/setting', {
+                    backupCycle: this.form.backupCycle,
+                    backupTime: this.form.backupTime,
+                    backupType: this.form.backupType
+                })
+                    .then((res) => {
+                        if (res.code === 0) {
+                            parent.layer.msg('创建成功');
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
+            },
+            querySetting(event) {
+                service.get('/query-setting', {
+                    params: {}
+                })
+                    .then((res) => {
+                        if (res.code === 0) {
+                            this.form.backupCycle = res.data.backupCycle
+                            this.form.backupTime = res.data.backupTime
+                            this.form.backupType = res.data.backupType
+                            console.log(this.form);
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
+            },
+            queryBackupList(event) {
+                service.get('/query-backup-list', {
+                    params: {}
+                })
+                    .then((res) => {
+                        if (res.code === 0) {
+                            if (res.data && res.data.length > 0) {
+                                this.tableData = [];
+                                for (let backup of res.data) {
+                                    let str = backup.split("_");
+                                    let item = {
+                                        date: str[0] + ' ' + str[1],
+                                        name: backup,
+                                        type: str[2]
+                                    }
+                                    this.tableData.push(item);
+                                    this.loading = false
+                                }
+                            }
+                        } else {
+                            this.$message.error(res.msg);
+                        }
+                    });
+            }
+        },
+        created() {
+            this.querySetting();
+            this.queryBackupList();
+        }
+    });
+</script>
+<style>
+    .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        color: #333;
+    }
+
+    .loadingModal {
+        height: var(height);
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 999999;
+    }
+
+</style>
+</html>

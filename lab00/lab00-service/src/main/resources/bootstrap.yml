@@ -1,0 +1,42 @@
+server:
+  port: 10000
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: lab00-interface
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+#  cloud:
+#    nacos:
+#      username: app
+#      password: 123456
+#      config:
+#        server-addr: localhost:8848
+#        file-extension: yaml
+#        enabled: true
+#        namespace: ${spring.profiles.active}
+#        data-id: lab00-interface
+#        # data-id: 默认配置为 ${prefix}.${file-extension} ， 如果定义了spring.profiles.active ，默认配置为：${prefix}-${spring.profiles.active}.${file-extension}
+#        enable-remote-sync-config: true
+##      discovery:
+#        server-addr: localhost:8848
+#        namespace: ${spring.profiles.active}
+#        register-enabled: false
+
+
+feign:
+  sentinel:
+    enabled：true
+
+jwt:
+  config:
+    expireTimeMills: 3600000
+    jwtSecret: awd
+    jwtIss: dsad
+    tokenHead: br
+    header: ad

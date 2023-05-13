@@ -3,7 +3,7 @@ singleServerConfig:
   database: 0
 threads: 0
 nettyThreads: 0
-codec: !<org.redisson.codec.JsonJacksonCodec> {}
+codec: !<org.redisson.codec.JsonJacksonCodec> { }
 transportMode: "NIO"
 
 #clusterServersConfig:

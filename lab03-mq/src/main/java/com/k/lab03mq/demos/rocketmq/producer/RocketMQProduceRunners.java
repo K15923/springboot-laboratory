@@ -16,16 +16,12 @@
 
 package com.k.lab03mq.demos.rocketmq.producer;
 
+import com.k.lab03mq.demos.rocketmq.Foo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.support.MessageBuilder;
-
-import com.k.lab03mq.demos.rocketmq.Foo;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 
 /**
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
@@ -52,16 +48,14 @@ public class RocketMQProduceRunners {
     public static class CustomRunner implements CommandLineRunner {
 
         private final String bindingName;
+        @Autowired
+        private SenderService senderService;
+        @Autowired
+        private MySource mySource;
 
         public CustomRunner(String bindingName) {
             this.bindingName = bindingName;
         }
-
-        @Autowired
-        private SenderService senderService;
-
-        @Autowired
-        private MySource mySource;
 
         @Override
         public void run(String... args) throws Exception {
@@ -71,17 +65,21 @@ public class RocketMQProduceRunners {
                     String msgContent = "msg-" + index;
                     if (index % 3 == 0) {
                         senderService.send(msgContent);
-                    } else if (index % 3 == 1) {
-                        senderService.sendWithTags(msgContent, "tagStr");
                     } else {
-                        senderService.sendObject(new Foo(index, "foo"), "tagObj");
+                        if (index % 3 == 1) {
+                            senderService.sendWithTags(msgContent, "tagStr");
+                        } else {
+                            senderService.sendObject(new Foo(index, "foo"), "tagObj");
+                        }
                     }
                 }
-            } else if (this.bindingName.equals("output3")) {
-                int count = 20;
-                for (int index = 1; index <= count; index++) {
-                    String msgContent = "pullMsg-" + index;
-                    mySource.output3().send(MessageBuilder.withPayload(msgContent).build());
+            } else {
+                if (this.bindingName.equals("output3")) {
+                    int count = 20;
+                    for (int index = 1; index <= count; index++) {
+                        String msgContent = "pullMsg-" + index;
+                        mySource.output3().send(MessageBuilder.withPayload(msgContent).build());
+                    }
                 }
             }
 

@@ -5,16 +5,16 @@
 <mapper namespace="com.k.lab01mybatis.dao.mapper.UserInfoMapper">
 
     <resultMap id="BaseResultMap" type="com.k.lab01mybatis.dao.domain.UserInfo">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="app" column="app" jdbcType="TINYINT"/>
-            <result property="version" column="version" jdbcType="VARCHAR"/>
-            <result property="city" column="city" jdbcType="VARCHAR"/>
-            <result property="province" column="province" jdbcType="VARCHAR"/>
-            <result property="area" column="area" jdbcType="VARCHAR"/>
-            <result property="address" column="address" jdbcType="VARCHAR"/>
-            <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="app" column="app" jdbcType="TINYINT"/>
+        <result property="version" column="version" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

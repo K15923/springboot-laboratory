@@ -1,0 +1,3 @@
+FROM adoptopenjdk/maven-openjdk8
+ADD lab00-interface-service/target/lab00-interface.jar lab00-interface.jar
+ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /lab00-interface.jar
