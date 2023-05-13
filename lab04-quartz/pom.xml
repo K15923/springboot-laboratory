@@ -68,7 +68,7 @@
         <!-- swagger2依赖开始 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
         </dependency>
         <!-- swagger2依赖结束 -->
         <!-- 远程操操作脚本文件 -->
