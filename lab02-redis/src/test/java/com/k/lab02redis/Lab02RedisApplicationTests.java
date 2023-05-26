@@ -26,6 +26,13 @@ class Lab02RedisApplicationTests {
         System.out.println(test);
     }
 
+
+    @Test
+    public void test() {
+        long l = redissonClient.getKeys().deleteByPattern("shz" + "*");
+        System.out.println(l);
+    }
+
     /**
      * String
      */

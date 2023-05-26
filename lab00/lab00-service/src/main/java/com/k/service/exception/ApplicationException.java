@@ -1,6 +1,6 @@
 package com.k.service.exception;
 
-import com.k.service.result.ErrorCode;
+import com.k.service.enums.ErrorEnum;
 
 /**
  * 应用错误 : 调用依赖系统异常
@@ -20,12 +20,12 @@ public class ApplicationException extends RuntimeException {
     /**
      * 构造函数
      *
-     * @param errorCode 错误代码 ErrorCode
+     * @param errorEnum
      */
-    public ApplicationException(ErrorCode errorCode) {
+    public ApplicationException(ErrorEnum errorEnum) {
         super();
-        this.code = errorCode.getCode();
-        this.message = errorCode.getMessage();
+        this.code = errorEnum.getCode();
+        this.message = errorEnum.getName();
     }
 
     /**
